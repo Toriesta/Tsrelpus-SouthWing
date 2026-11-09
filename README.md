@@ -6,13 +6,15 @@
 ## 目录
 
 ```
-index.html                      首页 · 头条式信息流（十频道 / 26 条）
+2026-11-08/                     第 001 期（index + news）
+2026-11-09/                     第 002 期（index + news，五栏 9 条）
+index.html                      首页 · 头条式信息流（十频道 / 32 条）
 archive.html                    往期存档（按日期索引）
 style.html                      写作方针 第 002 版（两个读者 / 八场景 / 十一条硬规矩 / 六频道两头 / 词表 / 九问）
 sources.html                    来源核验（84 条，逐条记录）
 about.html                      关于本刊 · 方法 · 取材范围 · 更正机制
-channels.html                   栏目索引（九个栏目，每条都能点回原文）
-gossip.html                     八卦 · 本地人情 / 全国大事 / 民间故事
+channels.html                   栏目索引（九个栏目 + 游戏 + 小说，每条都能点回原文）
+gossip.html                     八卦 · 20 条本地（全挂原文）/ 12 条全国大事 / 6 则民间故事（共 38 条）
 towns.html                      十镇索引
 calendar.html                   农历日历
 search.html                     全站搜索
