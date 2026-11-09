@@ -1,0 +1,6 @@
+# 构建产物与本地工具不入库
+build/
+*.mp4
+.tmp-*
+.DS_Store
+Thumbs.db

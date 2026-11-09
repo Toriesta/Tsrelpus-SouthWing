@@ -960,6 +960,30 @@ html.xbig .cal-notes li { font-size: 18px; }
 .ai-strip b { color: var(--ink); font-weight: 700; }
 .ai-strip:hover { border-left-color: var(--deep); }
 
+/* 头条式热榜：只借结构，不改纸张底色 */
+.hot {
+  margin: 16px 0 2px; padding: 13px 16px 4px;
+  background: var(--paper2); border: 1px solid var(--rule);
+}
+.hot-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.hot-h b { font-size: 14px; font-weight: 700; letter-spacing: .01em; }
+.hot-h span { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; color: var(--muted); }
+.hot ol { margin-top: 4px; }
+.hot li + li { border-top: 1px dashed var(--rule); }
+.hot li a { display: flex; align-items: baseline; gap: 10px; padding: 9px 0; }
+.hot li i {
+  flex: none; width: 18px; font-style: normal;
+  font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.hot li:nth-child(n+4) i { color: var(--muted); }
+.hot li span { flex: 1; font-size: 14px; line-height: 1.55; font-weight: 600; }
+.hot li em {
+  flex: none; font-style: normal;
+  font-family: var(--mono); font-size: 9px; letter-spacing: .06em; color: var(--muted);
+}
+.hot li a:hover span { box-shadow: inset 0 -3px 0 rgba(255, 107, 94, .45); }
+
 /* 民间新闻条目末尾的「今晚用得上」小板块 */
 .use-it {
   margin: 34px 0 0; padding: 20px 22px;

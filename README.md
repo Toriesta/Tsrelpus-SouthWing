@@ -6,12 +6,13 @@
 ## 目录
 
 ```
-index.html                      首页 · 头条式信息流（九频道 / 23 条）
+index.html                      首页 · 头条式信息流（十频道 / 26 条）
 archive.html                    往期存档（按日期索引）
 style.html                      写作方针 第 002 版（两个读者 / 八场景 / 十一条硬规矩 / 六频道两头 / 词表 / 九问）
 sources.html                    来源核验（84 条，逐条记录）
 about.html                      关于本刊 · 方法 · 取材范围 · 更正机制
-channels.html                   栏目索引（八个栏目，每条都能点回原文）
+channels.html                   栏目索引（九个栏目，每条都能点回原文）
+gossip.html                     八卦 · 本地人情 / 全国大事 / 民间故事
 towns.html                      十镇索引
 calendar.html                   农历日历
 search.html                     全站搜索
@@ -38,7 +39,7 @@ fonts/                          Noto Sans SC 子集 + Work Sans + Geist Mono
 
 首页模仿今日头条的形态，但只喂南翼这一块的内容：
 
-- **一行吸顶频道栏**：推荐 / 招工 / 房租 / 港口 / 镇事 / 产业 / 庙与日子 / 游戏 / 小说。切换是纯前端过滤（`data-ch`），不刷新页面，支持左右方向键。
+- **一行吸顶频道栏**：推荐 / 八卦 / 招工 / 房租 / 港口 / 镇事 / 产业 / 庙与日子 / 游戏 / 小说。切换是纯前端过滤（`data-ch`），不刷新页面，支持左右方向键。
 - **卡片两种形态**：`data-kind="data"` 是左数字右标题（`3500 元起`／`119 艘`），`data-kind="feature"` 是加底色与左边框的专题卡（观察 001）；其余是普通文字卡。三种交替出现，避免一路平铺。
 - **先出 7 条，点「加载更多」每次再加 6 条**（`shown=7`、`STEP=6`）。到底后按钮变灰并显示「已经到底了 · 共 N 条」。
 - **每张卡片都是一条能点开的原文**：标题指向 `news.html#A`～`#H` 的具体条目，`Sxx` 指向 `sources.html#Sxx` 的那一行。
@@ -89,11 +90,21 @@ fonts/                          Noto Sans SC 子集 + Work Sans + Geist Mono
 
 `novel.html` 是七部短篇连载的目录，一镇一行当。`listen.html` 是「划着听」：一屏一回，上划就是下一回；不爱听点「划走」，想换一部点「换一部」，另有倍速、喜欢、目录与断点续听。
 
-听书音频按 `assets/audio/<bookId>/<NN>-<voice>.mp3` 存放（三条声线：晓晓 / 云希 / 云健），`assets/audio/manifest.json` 列出可用文件；页面据此决定走音频还是退回本机语音。安卓 App 的 WebView 不支持 `speechSynthesis`，App 内只走音频。
+听书音频按 `assets/audio/<bookId>/<NN>-<voice>.ogg` 存放（opus 24k，三条声线：晓晓 / 云希 / 云健），`assets/audio/manifest.json` 列出可用文件；页面据此决定走音频还是退回本机语音。安卓 App 的 WebView 不支持 `speechSynthesis`，App 内只走音频。
+
+## 八卦栏
+
+`gossip.html` 分三块，边界写死在页面里：
+
+1. **南翼八卦** —— 镇上传闻，只记事、不点名、不评断，明确标注「未核实」。
+2. **全国大事件** —— 只摘公开报道，日期与媒体照录，逐条给出来源链接，不扩写、不推测。
+3. **民间故事** —— 老人闲谈里听来的版本，标明「口述整理」，不作史实考证。
+
+不含明星娱乐，不带联系方式、二维码与任何推广。
 
 ## 其它板块
 
-- `channels.html` 八个栏目索引，每条都能点回原文；`towns.html` 十镇索引。
+- `channels.html` 九个栏目索引，每条都能点回原文；`gossip.html` 八卦栏；`towns.html` 十镇索引。
 - `calendar.html` 农历日历，数据在 `assets/data/lunar.json`。
 - `games.html` 游戏板块，`games/` 下每篇一页。
 - `offline.html` 线下：谷子店与展会。

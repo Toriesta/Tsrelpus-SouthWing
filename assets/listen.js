@@ -45,12 +45,24 @@
 
   var audio = new Audio();
   audio.preload = 'auto';
-  var manifest = null;   /* 音频清单：{ "novel-006/01-xiaoxiao.mp3": 1 } */
+  var pendingSeek = 0;   /* 新音频还没 loadedmetadata 时，先记下要跳到的秒数 */
+  audio.addEventListener('loadedmetadata', function () {
+    if (pendingSeek > 0) {
+      try { audio.currentTime = pendingSeek; } catch (e) {}
+      pendingSeek = 0;
+    }
+  });
+  var manifest = null;   /* 音频清单：{ "novel-006/01-xiaoxiao.ogg": 1 } */
+  var audioFail = {};    /* 读不出来的音频，本页内退回本机语音，避免反复重试 */
   var voiceBtn = null;
 
   function pad2(n) { return (n < 10 ? '0' : '') + n; }
-  function relAudio(book, ci, v) { return book.id + '/' + pad2(ci + 1) + '-' + v + '.mp3'; }
-  function hasAudio(c, v) { return !!manifest && !!manifest[relAudio(c.book, c.ci, v || voice)]; }
+  function relAudio(book, ci, v) { return book.id + '/' + pad2(ci + 1) + '-' + v + '.ogg'; }
+  function hasAudio(c, v) {
+    if (!manifest) return false;
+    var rel = relAudio(c.book, c.ci, v || voice);
+    return !!manifest[rel] && !audioFail[rel];
+  }
   function audioSrc(c, v) { return abs('assets/audio/' + relAudio(c.book, c.ci, v || voice)); }
   function voiceName(v) {
     for (var i = 0; i < VOICES.length; i++) if (VOICES[i].id === (v || voice)) return VOICES[i].name;
@@ -177,8 +189,10 @@
     if (!st.playing) return;
     st.playing = false;
     updateUI();
+    var c = cards[st.i];
+    if (c && !c.isEnd) audioFail[relAudio(c.book, c.ci, voice)] = 1;
     if (synth) { speak(); return; }
-    toast('这一回的音频没读到');
+    toast('这一回的音频没读到，先看文字吧');
   });
 
   function stopAudio() {
@@ -194,13 +208,14 @@
     var src = audioSrc(c);
     if (st.src !== src) {
       st.src = src;
+      pendingSeek = from && from > 0 ? from : 0;
       audio.src = src;
-      audio.currentTime = 0;
-      if (from != null && from > 0) {
+    } else if (from != null && from > 0) {
+      if (audio.readyState > 0) {
         try { audio.currentTime = from; } catch (e) {}
+      } else {
+        pendingSeek = from;
       }
-    } else if (from != null) {
-      try { audio.currentTime = from; } catch (e) {}
     }
     audio.playbackRate = st.rate;
     var p = audio.play();
