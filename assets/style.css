@@ -577,11 +577,18 @@ body.feed-page .foot.wrap { max-width: 760px; padding: 0 22px; }
 }
 .today-main h2 a:hover { box-shadow: inset 0 -3px 0 rgba(255, 107, 94, .5); }
 
-/* 「一眼看懂」四格：招聘 / 房租 / 渔港 / 八卦 */
+/* 头条速览：招聘 / 房租 / 渔港 / 八卦 */
 .today-figs {
   display: flex; flex-wrap: wrap;
   margin-top: 12px;
   border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+}
+.today-figs-h {
+  flex: 0 0 100%;
+  padding: 5px 0 4px;
+  font-family: var(--sans); font-size: 10px; font-weight: 700;
+  letter-spacing: .18em; color: var(--deep);
+  border-bottom: 1px solid var(--rule);
 }
 .today-figs span {
   flex: 0 0 25%; padding: 8px 10px 9px 0;
@@ -619,8 +626,8 @@ body.feed-page .foot.wrap { max-width: 760px; padding: 0 22px; }
   .today-media { display: none; }
   .today-links a { font-size: 12.5px; }
   .today-figs span { flex: 0 0 50%; }
-  .today-figs span:nth-child(2n) { border-right: 0; }
-  .today-figs span:nth-child(n+3) { border-top: 1px solid var(--rule); }
+  .today-figs span:nth-of-type(2n) { border-right: 0; }
+  .today-figs span:nth-of-type(n+3) { border-top: 1px solid var(--rule); }
 }
 
 /* ---------- 栏目 / 十镇索引 ---------- */

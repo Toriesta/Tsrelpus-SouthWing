@@ -15,6 +15,7 @@ sources.html                    来源核验（84 条，逐条记录）
 about.html                      关于本刊 · 方法 · 取材范围 · 更正机制
 channels.html                   栏目索引（九个栏目 + 游戏 + 小说，每条都能点回原文）
 gossip.html                     八卦 · 20 条本地（全挂原文）/ 12 条全国大事 / 6 则民间故事 / 彩讯（只登已开奖号码）
+nanyang.html                    过番 · 7 条（东南亚与中国台湾地区，分节写不并称）+ 槟城福建话 11 个马来词语料表 + 5 项空栏
 submissions/                    读者投稿列表（index.html）与每篇独立页；导航「投稿」由 ui.js 全站补上
 towns.html                      十镇索引
 calendar.html                   农历日历
