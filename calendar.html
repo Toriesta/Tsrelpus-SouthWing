@@ -1,0 +1,189 @@
+<!-- 天枢南翼 · 农历日历 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>农历日历｜天枢南翼</title>
+<meta name="description" content="天枢南翼农历日历：公历、农历、节气与传统节日对照，初一十五一眼看清。">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-top">
+      <div class="mast-brand">
+        <img src="./assets/mark.svg" alt="">
+        <b>天枢南翼</b>
+      </div>
+      <div>非官方 · 民间记录 · 不接广告 · 不从事新闻采编</div>
+    </div>
+    <div class="mast-rule"></div>
+    <div class="mast-rule2"></div>
+    <div class="mast-name">
+      <h1>天枢南翼<small>TSRELPUS SOUTHWING / CALENDAR</small></h1>
+      <div class="mast-side">
+        农历日历<br>
+        <b>2026 — 2027</b><br>
+        初一 · 十五 · 节气
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="./index.html">头条</a>
+      <a href="./2026-11-08/news.html">民间新闻</a>
+      <a href="./channels.html">栏目</a>
+      <a href="./towns.html">十镇</a>
+      <a href="./games.html">游戏</a>
+      <a href="./novel.html">小说</a>
+      <a href="./search.html">搜索</a>
+      <a href="./observations/001-shi-zhen-chanye.html">观察 001</a>
+      <a href="./sources.html">来源核验</a>
+      <a href="./about.html">关于本刊</a>
+      <a href="./ai.html">AI 用法</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="kicker" style="margin-top:26px"><i></i>农历日历 · LUNAR CALENDAR</div>
+  <h1 class="cal-h1">今天，农历几号？</h1>
+  <p class="cal-sub" id="todayLine">正在读取农历数据…</p>
+
+  <div class="cal-head">
+    <button type="button" class="cal-btn" id="prev">上一月</button>
+    <div class="cal-title" id="title">—</div>
+    <button type="button" class="cal-btn" id="next">下一月</button>
+    <button type="button" class="cal-btn cal-today" id="back">回到今天</button>
+  </div>
+
+  <div class="cal-grid" role="grid" aria-label="农历日历">
+    <div class="cal-week">
+      <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+    </div>
+    <div class="cal-days" id="days"></div>
+  </div>
+
+  <section class="cal-notes">
+    <div class="sec-label"><b>本月节点</b><span>NOTES</span></div>
+    <ul id="notes"><li class="none">—</li></ul>
+  </section>
+
+  <div class="note">
+    <b>怎么用</b>
+    看日子、看潮水、看出海、看尾牙，本地人习惯先看农历。这里把公历、农历、节气、传统节日排在一格里：<b>初一十五</b>标在日期下，节气用紫色，节日用深红。
+    节气时刻按北京时间计算，跨日附近可能与气象部门发布相差一天，以官方发布为准。
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>天枢南翼 · 每日存档 / TSRELPUS SOUTHWING</span>
+  <span>非官方 · 不从事新闻采编 · 数据以原文为准</span>
+  <span>© 2026 · 第 001 期</span>
+</footer>
+
+<script src="./assets/ui.js" defer></script>
+<script>
+(function () {
+  var grid = document.getElementById('days');
+  var title = document.getElementById('title');
+  var notes = document.getElementById('notes');
+  var todayLine = document.getElementById('todayLine');
+  var data = null;
+  var cur = null;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function iso(y, m, d) { return y + '-' + pad(m) + '-' + pad(d); }
+  function monthKey(y, m) { return y + '-' + pad(m); }
+  function label(rec) { return rec[1] === 1 ? rec[3] + '初一' : rec[3]; }
+
+  function render() {
+    var y = cur.y, m = cur.m;
+    title.textContent = y + ' 年 ' + m + ' 月';
+    var first = new Date(y, m - 1, 1);
+    var days = new Date(y, m, 0).getDate();
+    var lead = first.getDay();
+    var now = new Date();
+    var todayIso = iso(now.getFullYear(), now.getMonth() + 1, now.getDate());
+
+    var cells = [];
+    for (var i = 0; i < lead; i++) cells.push('<div class="cal-day empty" aria-hidden="true"></div>');
+    var list = [];
+    for (var d = 1; d <= days; d++) {
+      var k = iso(y, m, d);
+      var rec = data.days[k];
+      var lunar = rec ? label(rec) : '';
+      var term = data.terms[k] || '';
+      var fest = data.fest[k] || '';
+      var mark = fest || term;
+      cells.push(
+        '<div class="cal-day' + (k === todayIso ? ' today' : '') + '" role="gridcell" aria-label="' + y + '年' + m + '月' + d + '日 农历' + lunar + '">' +
+        '<span class="d">' + d + '</span>' +
+        '<span class="l' + (term ? ' t' : '') + '">' + (rec ? label(rec) : '') + '</span>' +
+        (mark ? '<span class="l' + (fest ? ' f' : ' t') + '">' + mark + '</span>' : '') +
+        '</div>'
+      );
+      if (rec && rec[1] === 1) list.push([k, label(rec)]);
+      else if (rec && rec[1] === 15) list.push([k, '十五']);
+      if (term) list.push([k, term]);
+      if (fest) list.push([k, fest]);
+    }
+    grid.innerHTML = cells.join('');
+
+    if (list.length) {
+      notes.innerHTML = list.map(function (it) {
+        var p = it[0].split('-');
+        return '<li><b>' + Number(p[1]) + ' 月 ' + Number(p[2]) + ' 日</b><span>' + it[1] + '</span></li>';
+      }).join('');
+    } else {
+      notes.innerHTML = '<li class="none">本月没有农历初一、十五、节气或传统节日。</li>';
+    }
+
+    var firstIso = data.start.slice(0, 7), lastIso = data.end.slice(0, 7);
+    document.getElementById('prev').disabled = monthKey(y, m) <= firstIso;
+    document.getElementById('next').disabled = monthKey(y, m) >= lastIso;
+  }
+
+  function shift(n) {
+    var m = cur.m + n, y = cur.y;
+    if (m < 1) { m = 12; y--; } else if (m > 12) { m = 1; y++; }
+    var k = monthKey(y, m), a = data.start.slice(0, 7), b = data.end.slice(0, 7);
+    if (k < a || k > b) return;
+    cur = { y: y, m: m };
+    render();
+  }
+
+  fetch('./assets/data/lunar.json')
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      data = d;
+      var now = new Date();
+      cur = { y: now.getFullYear(), m: now.getMonth() + 1 };
+      var k = iso(cur.y, cur.m, now.getDate());
+      var rec = data.days[k];
+      todayLine.innerHTML = '今天 ' + cur.y + ' 年 ' + cur.m + ' 月 ' + now.getDate() + ' 日' +
+        (rec ? ' · 农历' + label(rec) : '') +
+        (data.terms[k] ? ' · ' + data.terms[k] : '') +
+        (data.fest[k] ? ' · ' + data.fest[k] : '');
+      if (!rec) { cur = { y: 2026, m: 1 }; }
+      render();
+    })
+    .catch(function () {
+      todayLine.textContent = location.protocol === 'file:'
+        ? '农历数据要在线上或本地服务器下才能读（双击打开本地文件会被浏览器拦截）。'
+        : '农历数据加载失败，请刷新重试。';
+    });
+
+  document.getElementById('prev').addEventListener('click', function () { shift(-1); });
+  document.getElementById('next').addEventListener('click', function () { shift(1); });
+  document.getElementById('back').addEventListener('click', function () {
+    if (!data) return;
+    var now = new Date();
+    cur = { y: now.getFullYear(), m: now.getMonth() + 1 };
+    render();
+  });
+})();
+</script>
+</body>
+</html>

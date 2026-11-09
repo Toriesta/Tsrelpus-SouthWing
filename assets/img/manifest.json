@@ -1,0 +1,58 @@
+{
+  "updated": "2026-11-09",
+  "rule": "站点只放压缩后的 jpg + webp；原图归档在仓库外的 素材库/img-originals，不入库。",
+  "items": [
+    {
+      "id": "harbor",
+      "files": ["harbor.webp", "harbor.jpg"],
+      "width": 1600,
+      "height": 1200,
+      "approxKb": 31,
+      "kind": "AI 生成示意图",
+      "caption": "示意图 · 非现场照片",
+      "alt": "深沪渔港示意图：清晨渔船靠岸",
+      "usedIn": ["index.html 本期选读"],
+      "status": "在用",
+      "credit": "天枢南翼自制"
+    },
+    {
+      "id": "chain",
+      "files": ["chain.webp", "chain.jpg"],
+      "width": 1600,
+      "height": 1200,
+      "approxKb": 30,
+      "kind": "AI 生成示意图",
+      "caption": "示意图 · 非现场照片",
+      "alt": "南翼十镇产业链示意图",
+      "usedIn": ["index.html 观察 001 卡片"],
+      "status": "在用",
+      "credit": "天枢南翼自制"
+    },
+    {
+      "id": "rent",
+      "files": ["rent.webp", "rent.jpg"],
+      "width": 1600,
+      "height": 1200,
+      "approxKb": 26,
+      "kind": "AI 生成示意图",
+      "caption": "示意图 · 非现场照片",
+      "alt": "单间出租屋示意图",
+      "usedIn": [],
+      "status": "备用",
+      "credit": "天枢南翼自制"
+    },
+    {
+      "id": "umbrella",
+      "files": ["umbrella.webp", "umbrella.jpg"],
+      "width": 1600,
+      "height": 1200,
+      "approxKb": 28,
+      "kind": "AI 生成示意图",
+      "caption": "示意图 · 非现场照片",
+      "alt": "东石伞厂车间示意图",
+      "usedIn": [],
+      "status": "备用",
+      "credit": "天枢南翼自制"
+    }
+  ]
+}

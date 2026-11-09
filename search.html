@@ -1,0 +1,319 @@
+<!-- 天枢南翼 · 站内搜索 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搜索｜天枢南翼</title>
+<meta name="description" content="天枢南翼站内搜索：按关键词、栏目或镇，找到本期的每一条民间新闻与观察长文。">
+<link rel="stylesheet" href="./assets/style.css">
+<style>
+  .search-head { padding: clamp(26px, 4vw, 40px) 0 clamp(16px, 2.4vw, 22px); border-bottom: 2px solid var(--ink); }
+  .search-head h1 { font-size: clamp(32px, 4.6vw, 54px); line-height: 1.05; letter-spacing: -.035em; font-weight: 700; }
+  .search-head p { margin-top: 10px; font-size: 14px; line-height: 1.8; color: var(--muted); }
+  .search-bar { display: flex; gap: 10px; margin-top: 20px; }
+  .search-bar input {
+    flex: 1 1 auto; min-width: 0;
+    padding: 12px 14px; border: 1px solid var(--ink); background: var(--paper2);
+    font-family: var(--sans); font-size: 16px; color: var(--ink);
+  }
+  .search-bar input:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-bar button {
+    flex: none; appearance: none; cursor: pointer; padding: 0 18px;
+    border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+    font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
+  }
+  .search-bar button:hover { background: var(--deep); border-color: var(--deep); }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .filters button {
+    appearance: none; cursor: pointer; padding: 4px 11px;
+    border: 1px solid var(--rule-strong); background: transparent;
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; color: var(--muted);
+  }
+  .filters button.on { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+  .result-meta { margin-top: 18px; font-family: var(--mono); font-size: 9px; letter-spacing: .1em; color: var(--muted); }
+  .result-meta b { color: var(--ink); }
+  .hit { display: none; }
+  .hit.on { display: block; }
+  .no-hit { display: none; margin-top: 22px; padding: 16px 18px; background: var(--paper2); border: 1px solid var(--rule); font-size: 13.5px; color: var(--muted); }
+  .no-hit b { color: var(--ink); }
+  @media (max-width: 600px) {
+    .search-bar { flex-wrap: wrap; }
+    .search-bar input { flex: 1 1 100%; }
+    .search-bar button { padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-top">
+      <div class="mast-brand">
+        <img src="./assets/mark.svg" alt="">
+        <b>天枢南翼</b>
+      </div>
+      <div>非官方 · 民间记录 · 不接广告 · 不从事新闻采编</div>
+    </div>
+    <div class="mast-rule"></div>
+    <div class="mast-rule2"></div>
+    <div class="mast-name">
+      <h1>天枢南翼<small>TSRELPUS SOUTHWING / SEARCH</small></h1>
+      <div class="mast-side">
+        站内搜索<br>
+        <b>2026.11.08</b><br>
+        第 001 期
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="./index.html">头条</a>
+      <a href="./2026-11-08/news.html">民间新闻</a>
+      <a href="./channels.html">栏目</a>
+      <a href="./towns.html">十镇</a>
+      <a href="./search.html" class="on">搜索</a>
+      <a href="./games.html">游戏</a>
+      <a href="./offline.html">谷子地图</a>
+      <a href="./novel.html">小说</a>
+      <a href="./observations/001-shi-zhen-chanye.html">观察 001</a>
+      <a href="./sources.html">来源核验</a>
+      <a href="./about.html">关于本刊</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <header class="search-head">
+    <div class="kicker"><i></i>搜索 · SEARCH</div>
+    <h1>找一条稿子。</h1>
+    <p>输入关键词，或用栏目、镇筛选。搜的是标题与摘要，不含正文；每条结果都直接跳到原文那一段。</p>
+    <div class="search-bar">
+      <input id="q" type="search" placeholder="试试「伞」「750」「深沪」" autocomplete="off" aria-label="搜索关键词">
+      <button id="go" type="button">搜索</button>
+    </div>
+    <div class="filters" id="filters" aria-label="按栏目筛选">
+      <button class="on" data-f="all">全部</button>
+      <button data-f="招工">招工</button>
+      <button data-f="房租">房租</button>
+      <button data-f="港口">港口与季节</button>
+      <button data-f="一句话">一句话</button>
+      <button data-f="观察">观察</button>
+      <button data-f="人物">人物</button>
+      <button data-f="故事">故事</button>
+      <button data-f="庙与日子">庙与日子</button>
+      <button data-f="小说">小说</button>
+      <button data-f="东石">东石</button>
+      <button data-f="深沪">深沪</button>
+      <button data-f="安海">安海</button>
+      <button data-f="金井">金井</button>
+    </div>
+  </header>
+
+  <div class="result-meta">共 <b id="count">17</b> 条可搜内容 · 更新至 2026.11.09</div>
+
+  <section class="index" id="results" style="margin-top:10px">
+    <article class="entry hit" data-c="小说" data-t="金井 围头 鲍鱼 养殖 度夏 溶氧 南北转场 听书 小说">
+      <div class="entry-no">小说</div>
+      <div>
+        <h3><a href="./novel/007-jin-jing-du-xia.html">度夏：一笼鲍鱼死了一半，他说不是天热，是闷</a></h3>
+        <p>五回，约 8900 字，朗读约 32 分钟。虚构人物，鲍鱼养殖的溶氧、分疏密度与南北转场取自公开规范与报道。点「开始听书」可以直接听。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">小说 007</span><br>虚构作品 · 11.09</div>
+    </article>
+
+    <article class="entry hit" data-c="小说" data-t="安海 玩具 小零件 拉力 EN71 出口 听书 小说">
+      <div class="entry-no">小说</div>
+      <div>
+        <h3><a href="./novel/006-an-hai-yi-ke-yan-jing.html">一颗眼睛：验货那天，他把玩具鸭的眼睛拽了下来</a></h3>
+        <p>五回，约 4900 字，朗读约 17 分钟。虚构人物，玩具安全标准（小零件、拉力、3C、EN71）取自公开规范。点「开始听书」可以直接听。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">小说 006</span><br>虚构作品 · 11.09</div>
+    </article>
+
+    <article class="entry hit" data-c="小说" data-t="内坑 拖鞋 EVA 模具 发泡 听书 小说">
+      <div class="entry-no">小说</div>
+      <div>
+        <h3><a href="./novel/003-nei-keng-yi-li-liao.html">一粒料：三千双拖鞋塌花，他说不是模具的问题</a></h3>
+        <p>五回，约 5700 字，朗读约 20 分钟。虚构人物，拖鞋的造粒、开模、超临界发泡与产能数字取自公开报道。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">小说 003</span><br>虚构作品 · 11.09</div>
+    </article>
+
+    <article class="entry hit" data-c="小说" data-t="英林 泳装 面料 染整 配套 听书 小说">
+      <div class="entry-no">小说</div>
+      <div>
+        <h3><a href="./novel/005-ying-lin-san-shi-wu-fen-zhong.html">三十五分钟：客户七天要三千件，他骑摩托跑了一圈</a></h3>
+        <p>五回，约 5600 字，朗读约 20 分钟。虚构人物，泳装的三十分钟本地配套、氨纶比例、四针六线、抗氯测试都是真的。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">小说 005</span><br>虚构作品 · 11.09</div>
+    </article>
+
+    <article class="entry hit" data-c="小说" data-t="东石 萧下 伞骨 修伞 听书 小说">
+      <div class="entry-no">小说</div>
+      <div>
+        <h3><a href="./novel/001-dong-shi-san-qian-ba-san.html">三千把伞：三十七把坏伞里，只有四把修不好</a></h3>
+        <p>八回，约 4900 字，朗读约 18 分钟。虚构人物，产业细节（伞骨、玻纤、槽骨、按把算）取自核过的公开报道。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">小说 001</span><br>虚构作品 · 11.09</div>
+    </article>
+
+    <article class="entry hit" data-c="招工" data-t="东石 肖下">
+      <div class="entry-no">招工</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#A">东石肖下：中诚雨具招车间工，3500 元以上，计件</a></h3>
+        <p>标题写「招 40 人」，正文只列 30 个岗位；包食宿，带身份证到人事部。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S29</span><br>泉州人才网 · 10.18</div>
+    </article>
+
+    <article class="entry hit" data-c="招工" data-t="东石 萧下">
+      <div class="entry-no">招工</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#B">富裕伞骨招 6 名操作员，培训期每天 153 元</a></h3>
+        <p>独立上机后转计件，原文写「正常 6000—10000 元/月」；夜班补贴 20 元/天。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S31</span><br>大泉州人才网 · 09.28</div>
+    </article>
+
+    <article class="entry hit" data-c="招工" data-t="东石">
+      <div class="entry-no">招工</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#C">雨丝梦招跟单员 4000 以上，要求「本地人，有经验」</a></h3>
+        <p>同一间厂，普工岗写「计件 3500—4500 元以上」，办公室岗写 4000 以上。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S30</span><br>泉州人才网 · 未标更新</div>
+    </article>
+
+    <article class="entry hit" data-c="房租" data-t="东石">
+      <div class="entry-no">房租</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#D">东石的单间：750 到 900 之间</a></h3>
+        <p>鑫海湾 20 平方米 750 元；埔头村 30 平方米 799 元，押一付一；金龙海悦城 35 平方米 900 元。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S33</span><br>58 同城 · 安居客</div>
+    </article>
+
+    <article class="entry hit" data-c="房租" data-t="全市">
+      <div class="entry-no">房租</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#E">折算约 25 元一平方，总价只有全市四成</a></h3>
+        <p>晋江全市挂牌均价 22.36 元/平方米，平均总价 1881 元；本刊换算 750 元 / 30 平方米。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S35</span><br>禧泰数据 · 10 月</div>
+    </article>
+
+    <article class="entry hit" data-c="港口" data-t="深沪">
+      <div class="entry-no">港口</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#F">开渔日深沪港 119 艘船出海</a></h3>
+        <p>8 月 16 日 12 时开渔；晋江在册渔船 445 艘、乡镇船舶 1664 艘。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S36</span><br>晋江市政府 · 08.17</div>
+    </article>
+
+    <article class="entry hit" data-c="港口" data-t="深沪">
+      <div class="entry-no">港口</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#G">渔港扩建完成 97%，年卸港量 8→12 万吨</a></h3>
+        <p>新建码头 213 米、4 个 1000 马力泊位，力争 10 月底竣工验收。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S37</span><br>闽南网 · 2026-10</div>
+    </article>
+
+    <article class="entry hit" data-c="一句话" data-t="东石">
+      <div class="entry-no">一句话</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#H">「本地人，有经验。」</a></h3>
+        <p>雨丝梦跟单员岗位的全部任职要求，六个字；同一页面车间岗写「能吃苦耐劳」。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S30</span><br>泉州人才网 · 未标更新</div>
+    </article>
+
+    <article class="entry hit" data-c="观察" data-t="十镇">
+      <div class="entry-no">观察</div>
+      <div>
+        <h3><a href="./observations/001-shi-zhen-chanye.html">观察 001｜一个镇，一条链：南翼十镇的产业结构底图</a></h3>
+        <p>十镇主导产业、企业体量与规上占比，一张表排完，附四层企业结构拆解。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">长文</span><br>约 9 分钟</div>
+    </article>
+
+    <article class="entry hit" data-c="人物" data-t="泉州 高甲戏 戏班">
+      <div class="entry-no">人物</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#I">「申遗以前，一年约 200 场，观众席上清一色老人」</a></h3>
+        <p>泉州市高甲戏剧团副团长林凤锦的两组数字：现在年演 500 场以上、票一放就抢光；申遗前一年约 200 场、台下清一色老人。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S72</span><br>海峡都市报 · 2024-10-16</div>
+    </article>
+
+    <article class="entry hit" data-c="故事" data-t="十镇 七月 普渡 佛生日">
+      <div class="entry-no">故事</div>
+      <div>
+        <h3><a href="./2026-11-08/news.html#J">七月的日子表：初一起，内头李；初二，杏厝王</a></h3>
+        <p>普渡不是一天，是整个农历七月逐日轮排；石狮龟湖十三村分属十二生肖、十二年轮一次。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S70 / S71</span><br>地方民俗记述</div>
+    </article>
+
+    <article class="entry hit" data-c="庙与日子" data-t="安海 深沪 水头 草庵 龙山寺 崇真殿 金井 宗教">
+      <div class="entry-no">观察</div>
+      <div>
+        <h3><a href="./observations/002-miao-yu-rizi.html">观察 002｜一条街上，几尊神明：南翼的庙不是景点，是日程表</a></h3>
+        <p>龙山寺（隋）、崇真殿（唐末）、天心洞（隋）、草庵摩尼光佛（宋元，世界遗产）、金井堂（1933）——以及这些日子怎么变成排产变量。</p>
+      </div>
+      <div class="entry-meta"><span class="tag">S64—S74</span><br>观察 · 约 8 分钟</div>
+    </article>
+  </section>
+
+  <div class="no-hit" id="noHit">
+    <b>没有匹配的条目。</b>
+    换一个词试试，或点「全部」看本期所有内容。搜不到不代表没有——可能是这期没拿到可点开的原页面。
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>天枢南翼 · 每日存档 / TSRELPUS SOUTHWING</span>
+  <span>非官方 · 不从事新闻采编 · 数据以原文为准</span>
+  <span>© 2026 · 第 001 期</span>
+</footer>
+
+<script>
+  const hits = Array.from(document.querySelectorAll('#results .hit'));
+  const q = document.getElementById('q');
+  const filters = document.getElementById('filters');
+  const count = document.getElementById('count');
+  const noHit = document.getElementById('noHit');
+  let activeFilter = 'all';
+
+  function apply() {
+    const kw = q.value.trim().toLowerCase();
+    let shown = 0;
+    hits.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const byKw = !kw || text.includes(kw);
+      const byF = activeFilter === 'all' || card.dataset.c === activeFilter || (card.dataset.t || '').includes(activeFilter);
+      const ok = byKw && byF;
+      card.classList.toggle('on', ok);
+      if (ok) shown++;
+    });
+    count.textContent = shown;
+    noHit.style.display = shown ? 'none' : 'block';
+  }
+
+  q.addEventListener('input', apply);
+  q.addEventListener('keydown', e => { if (e.key === 'Escape') { q.value = ''; apply(); } });
+  filters.addEventListener('click', e => {
+    const b = e.target.closest('button[data-f]');
+    if (!b) return;
+    activeFilter = b.dataset.f;
+    filters.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    apply();
+  });
+  apply();
+</script>
+
+<script src="./assets/ui.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!-- 天枢南翼 · 阅读设置 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅读设置｜天枢南翼</title>
+<meta name="description" content="天枢南翼阅读设置：字号、主题、朗读语速与分享。设置只保存在这台设备上。">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-top">
+      <div class="mast-brand">
+        <img src="./assets/mark.svg" alt="">
+        <b>天枢南翼</b>
+      </div>
+      <div>非官方 · 民间记录 · 不接广告 · 不从事新闻采编</div>
+    </div>
+    <div class="mast-rule"></div>
+    <div class="mast-rule2"></div>
+    <div class="mast-name">
+      <h1>天枢南翼<small>TSRELPUS SOUTHWING / SETTINGS</small></h1>
+      <div class="mast-side">
+        阅读设置<br>
+        <b>2026.11.08</b><br>
+        第 001 期
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="./index.html">头条</a>
+      <a href="./2026-11-08/news.html">民间新闻</a>
+      <a href="./channels.html">栏目</a>
+      <a href="./towns.html">十镇</a>
+      <a href="./games.html">游戏</a>
+      <a href="./offline.html">谷子地图</a>
+      <a href="./novel.html">小说</a>
+      <a href="./search.html">搜索</a>
+      <a href="./observations/001-shi-zhen-chanye.html">观察 001</a>
+      <a href="./sources.html">来源核验</a>
+      <a href="./about.html">关于本刊</a>
+      <a href="./ai.html">AI 用法</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="setgrid">
+    <div class="kicker"><i></i>阅读设置 · SETTINGS</div>
+    <h1 style="margin-top:14px;font-size:clamp(30px,4.6vw,50px);line-height:1.06;letter-spacing:-.035em">只看你想看的。</h1>
+    <p class="standfirst" style="margin-top:14px">
+      字号、主题、朗读语速都在这里调。改完立刻生效，刷新也不会丢——设置只存在你这台设备上，不上传、不联网。
+    </p>
+
+    <div class="setcard" style="margin-top:26px">
+      <div class="setrow">
+        <div class="lab">字号</div>
+        <div class="seg" data-seg="fs">
+          <button type="button" data-v="1">标准</button>
+          <button type="button" data-v="2">大字</button>
+          <button type="button" data-v="3">特大</button>
+        </div>
+        <div class="hint">给眼睛不好的长辈用「特大」，正文会到 22.5px。</div>
+      </div>
+
+      <div class="setrow">
+        <div class="lab">主题</div>
+        <div class="seg" data-seg="theme">
+          <button type="button" data-v="light">日间</button>
+          <button type="button" data-v="dark">夜间</button>
+          <button type="button" data-v="auto">跟随系统</button>
+        </div>
+        <div class="hint">夜间是深色纸感配色，晚上看不刺眼。</div>
+      </div>
+
+      <div class="setrow">
+        <div class="lab">朗读</div>
+        <div class="act">
+          <button type="button" data-speak>朗读本页</button>
+          <button type="button" class="ghost" data-stop>停止</button>
+        </div>
+        <div class="seg" data-seg="rate" style="margin-top:8px">
+          <button type="button" data-v="0.85">慢</button>
+          <button type="button" data-v="1">正常</button>
+          <button type="button" data-v="1.15">快</button>
+        </div>
+        <div class="hint">用手机或浏览器自带的语音念正文；在文章页上会念那一篇，不会念整站。</div>
+      </div>
+
+      <div class="setrow">
+        <div class="lab">分享与重置</div>
+        <div class="act">
+          <button type="button" data-share>分享本页</button>
+          <button type="button" class="ghost" data-reset>恢复默认</button>
+        </div>
+        <div class="hint">分享会调用系统菜单，可直接发到微信；不支持时自动复制链接。</div>
+      </div>
+    </div>
+
+    <div class="setpreview" id="preview">
+      <b>预览：招工 3500 起，单间 750，船回来 119 条。</b>
+      东石两家伞厂的招工启事写「招 40 人」，正文只列 30 个岗位；单间月租 750 元，折合约 25 元一平方。字号、主题改完，这段会跟着变。
+    </div>
+
+    <div class="note">
+      <b>为什么单独做一页</b>
+      原来那排悬浮按钮挡正文、位置也别扭。现在入口固定在导航栏最后一项「阅读设置」，不遮挡内容，手机上也不会误触。
+    </div>
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>天枢南翼 · 每日存档 / TSRELPUS SOUTHWING</span>
+  <span>非官方 · 不从事新闻采编 · 数据以原文为准</span>
+  <span>© 2026 · 第 001 期</span>
+</footer>
+
+<script src="./assets/ui.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var ui = window.TsUi;
+  if (!ui) return;
+  var st = ui.state;
+
+  var segs = document.querySelectorAll('[data-seg]');
+  function refresh() {
+    segs.forEach(function (seg) {
+      var name = seg.dataset.seg;
+      var cur = name === 'rate' ? String(st.rate) : st[name];
+      seg.querySelectorAll('button').forEach(function (b) {
+        b.classList.toggle('on', b.dataset.v === cur);
+      });
+    });
+  }
+
+  segs.forEach(function (seg) {
+    seg.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-v]');
+      if (!b) return;
+      var name = seg.dataset.seg;
+      st[name] = name === 'rate' ? Number(b.dataset.v) : b.dataset.v;
+      ui.apply(); ui.save(); refresh();
+      var msg = {
+        fs: { 1: '标准字号', 2: '大字', 3: '特大' },
+        theme: { light: '日间', dark: '夜间', auto: '跟随系统' },
+        rate: { 0.85: '慢速朗读', 1: '正常语速', 1.15: '快速朗读' }
+      }[name];
+      if (msg) ui.say('已切换到' + msg[st[name]]);
+    });
+  });
+
+  var speakBtn = document.querySelector('[data-speak]');
+  var stopBtn = document.querySelector('[data-stop]');
+  var speaking = false;
+  function stopSpeak() {
+    if (ui.synth) ui.synth.cancel();
+    speaking = false;
+    speakBtn.textContent = '朗读本页';
+  }
+  if (!ui.synth) {
+    speakBtn.hidden = true; stopBtn.hidden = true;
+  } else {
+    speakBtn.addEventListener('click', function () {
+      if (speaking) { stopSpeak(); return; }
+      var main = document.querySelector('main');
+      var text = (main ? main.innerText : document.body.innerText).replace(/\s+/g, ' ').trim().slice(0, 6000);
+      if (!text) return;
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = st.rate;
+      u.onend = stopSpeak;
+      u.onerror = stopSpeak;
+      ui.synth.cancel();
+      ui.synth.speak(u);
+      speaking = true;
+      speakBtn.textContent = '正在朗读…';
+      ui.say('开始朗读，可随时停止');
+    });
+    stopBtn.addEventListener('click', stopSpeak);
+  }
+
+  document.querySelector('[data-share]').addEventListener('click', function () {
+    var data = { title: document.title, url: location.href };
+    if (navigator.share) {
+      navigator.share(data).catch(function () {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(location.href).then(function () {
+        ui.say('链接已复制，可粘贴到微信');
+      }, function () {
+        ui.say('复制失败，请手动复制地址栏');
+      });
+    } else {
+      ui.say('请手动复制地址栏');
+    }
+  });
+
+  document.querySelector('[data-reset]').addEventListener('click', function () {
+    st.fs = '1'; st.theme = 'light'; st.rate = 1;
+    ui.apply(); ui.save(); refresh();
+    stopSpeak();
+    ui.say('已恢复默认设置');
+  });
+
+  refresh();
+});
+</script>
+
+</body>
+</html>

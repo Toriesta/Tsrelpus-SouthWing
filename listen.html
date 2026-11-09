@@ -1,0 +1,68 @@
+<!-- 天枢南翼 · 听书频道（划着听） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>划着听 · 小说听书｜天枢南翼</title>
+<meta name="description" content="像刷短视频一样听小说：一屏一回，上划听下一回，不爱听就划走；支持倍速、喜欢、目录跳转。预生成音频朗读，网页端没有音频时退回本机语音，文字不上传。">
+<meta name="theme-color" content="#121018">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body class="listen-page">
+
+<header class="ls-top">
+  <a class="ls-back" href="./novel.html">← 回小说</a>
+  <span class="ls-brand">天枢南翼 · 划着听</span>
+  <span class="ls-count" id="count">—</span>
+</header>
+
+<main class="ls-feed" id="feed" aria-label="听书卡片">
+  <section class="ls-card">
+    <div class="ls-inner">
+      <div class="ls-kicker">听书频道 · LISTEN</div>
+      <h1 class="ls-h1">正在准备…</h1>
+      <p class="ls-text">把小说拆成一回一卡。</p>
+    </div>
+  </section>
+</main>
+
+<aside class="ls-rail" aria-label="操作">
+  <button type="button" class="ls-act" id="like">喜欢<small id="likeN">0</small></button>
+  <button type="button" class="ls-act" id="skip">划走<small>下一回</small></button>
+  <button type="button" class="ls-act" id="nextBook">换一部<small>下一部</small></button>
+  <button type="button" class="ls-act" id="toc">目录<small>全部回</small></button>
+</aside>
+
+<div class="ls-bottom">
+  <div class="ls-row">
+    <button type="button" class="ls-play" id="play">开始听</button>
+    <div class="ls-meta">
+      <b id="title">—</b>
+      <span id="sub">—</span>
+    </div>
+    <button type="button" class="ls-rate" id="rate">1.0×</button>
+  </div>
+  <div class="ls-prog" aria-hidden="true"><i id="prog"></i></div>
+</div>
+
+<div class="ls-gate" id="gate" hidden>
+  <button type="button" id="gatePlay">开始听这一回</button>
+  <span>手机浏览器要你先点一下，语音才会出声</span>
+</div>
+
+<div class="ls-sheet" id="sheet" aria-label="听书目录">
+  <div class="ls-sheet-h">
+    <span>目录 · 全部回目</span>
+    <button type="button" class="ls-sheet-x" id="sheetClose">关闭</button>
+  </div>
+  <ol id="sheetList"></ol>
+</div>
+
+<div class="ls-toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="./assets/listen.js" defer></script>
+<script src="./assets/ui.js" defer></script>
+</body>
+</html>

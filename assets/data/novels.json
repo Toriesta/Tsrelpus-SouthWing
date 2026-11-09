@@ -1,0 +1,55 @@
+{
+  "updated": "2026-11-09",
+  "note": "听书频道的作品登记表。新增一部小说：在 books 里加一条，url 指向阅读页（正文需按 novel-player 的结构写），听书页会自动按「回」切卡。顺序即信息流顺序，建议新发的放最前。",
+  "books": [
+    {
+      "id": "novel-007",
+      "no": "007",
+      "title": "度夏",
+      "town": "金井 · 鲍鱼",
+      "url": "./novel/007-jin-jing-du-xia.html"
+    },
+    {
+      "id": "novel-006",
+      "no": "006",
+      "title": "一颗眼睛",
+      "town": "安海 · 玩具",
+      "url": "./novel/006-an-hai-yi-ke-yan-jing.html"
+    },
+    {
+      "id": "novel-005",
+      "no": "005",
+      "title": "三十五分钟",
+      "town": "英林 · 泳装",
+      "url": "./novel/005-ying-lin-san-shi-wu-fen-zhong.html"
+    },
+    {
+      "id": "novel-004",
+      "no": "004",
+      "title": "洗五次",
+      "town": "深沪 · 内衣",
+      "url": "./novel/004-shen-hu-yi-jian-nei-yi.html"
+    },
+    {
+      "id": "novel-003",
+      "no": "003",
+      "title": "一粒料",
+      "town": "内坑 · 拖鞋",
+      "url": "./novel/003-nei-keng-yi-li-liao.html"
+    },
+    {
+      "id": "novel-002",
+      "no": "002",
+      "title": "看石头的眼睛",
+      "town": "水头 · 石材",
+      "url": "./novel/002-shui-tou-kan-shi-tou.html"
+    },
+    {
+      "id": "novel-001",
+      "no": "001",
+      "title": "三千把伞",
+      "town": "东石 · 伞",
+      "url": "./novel/001-dong-shi-san-qian-ba-san.html"
+    }
+  ]
+}
