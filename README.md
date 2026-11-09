@@ -15,6 +15,7 @@ sources.html                    来源核验（84 条，逐条记录）
 about.html                      关于本刊 · 方法 · 取材范围 · 更正机制
 channels.html                   栏目索引（九个栏目 + 游戏 + 小说，每条都能点回原文）
 gossip.html                     八卦 · 20 条本地（全挂原文）/ 12 条全国大事 / 6 则民间故事 / 彩讯（只登已开奖号码）
+submissions/                    读者投稿列表（index.html）与每篇独立页；导航「投稿」由 ui.js 全站补上
 towns.html                      十镇索引
 calendar.html                   农历日历
 search.html                     全站搜索
@@ -112,6 +113,21 @@ fonts/                          Noto Sans SC 子集 + Work Sans + Geist Mono
 - `games.html` 游戏板块，`games/` 下每篇一页。
 - `offline.html` 线下：谷子店与展会。
 - `search.html` 全站搜索；`settings.html` 阅读设置（字号 / 夜间 / 语速，存在 localStorage）。
+
+## 读者投稿（怎么加一篇）
+
+模板在 `build/templates/submission.html`（不随站点发布）。流程：
+
+1. 收到稿子，先核对能公开的事实与来源；涉及隐私、未核实指控、广告与赌博内容的直接退。
+2. 复制模板到 `submissions/`，改名 `001-ni-de-biaoti.html`，改标题、描述、署名、日期、正文。
+3. 在 `submissions/index.html` 的 `<!-- submission:begin -->` 与 `<!-- submission:end -->` 之间加一张卡片，标题指向新页面。
+4. 发布后地址形如 `https://toriesta.github.io/Tsrelpus-SouthWing/submissions/001-ni-de-biaoti.html`，可直接转发。
+
+**阅读与点赞**：所有文章页（含投稿页）由 `assets/ui.js` 自动在署名下方加一行「阅读 / 点赞」与「分享这篇」。
+默认按页面网址生成 1800–5999 阅读、120–499 点赞；要在单页写死，就在 `.article-head` 上加 `data-views="3200" data-likes="260"`。
+**这些是初期展示值，不是实时统计**；要真实计数得接后端或统计服务，静态站本身做不到。
+
+分享按钮：手机调用系统分享，电脑复制链接；拿不到剪贴板时弹出手动复制框。
 
 ## 上线前检查
 
