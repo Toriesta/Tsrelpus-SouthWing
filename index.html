@@ -276,6 +276,18 @@
     </a>
   </article>
 
+  <article class="card" data-ch="gossip">
+    <a href="./gossip.html#caixun">
+      <h3>彩讯｜六合彩只登已开奖号码：最新三期在这儿</h3>
+      <p>26/118（11 月 7 日）11·14·17·21·22·29，特别号 40；26/117 与 26/116 一并列出。只录已开奖号码，不写预测、不画玄机、不卖特码、不给下注入口——内地「买码」属违法赌博，本栏不劝人碰。</p>
+      <div class="card-meta">
+        <span class="ch">彩讯</span>
+        <span class="src">HKJC / 公开开奖记录</span>
+        <span>2026-11-09</span>
+      </div>
+    </a>
+  </article>
+
   <article class="card" data-kind="feature" data-ch="novel">
     <a href="./novel/007-jin-jing-du-xia.html">
       <h3>小说｜度夏：一笼鲍鱼死了一半，他说不是天热，是闷</h3>
@@ -641,7 +653,16 @@
     ch = t.dataset.ch;
     shown = 7;
     render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    /* 切频道后停在信息流开头（频道栏下方），不跳回刊头顶部；
+       「推荐」停在热榜，具体频道直接停在第一条 */
+    var bar = document.querySelector('.channels');
+    var hot = document.querySelector('.hot');
+    var first = [].slice.call(document.querySelectorAll('.card')).filter(function (c) { return !c.hidden; })[0];
+    var anchor = (ch === 'all' || !first) ? hot : first;
+    if (bar && anchor) {
+      var y = anchor.getBoundingClientRect().top + window.pageYOffset - bar.offsetHeight;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+    }
   }
 
   tabs.forEach(function (t, i) {
