@@ -188,5 +188,54 @@
     meta.append(el);
   });
 
+  /* 热点速览：底部固定滚动条，可关闭，关掉后记住 */
+  (function ticker() {
+    if (/(^|\/)listen\.html$/.test(location.pathname)) return;
+    if (document.querySelector('.np')) return;
+    try { if (localStorage.getItem(KEY + '_tick') === '0') return; } catch (e) {}
+
+    const items = [
+      ['2026-11-09/news.html', '招工 7000 起，四人间'],
+      ['gossip.html#rocket', '长征十二号 04:24 发射'],
+      ['gossip.html#caixun', '六合彩 26/118 已开奖'],
+      ['gossip.html', '南翼八卦 20 条'],
+      ['novel/007-jin-jing-du-xia.html', '小说｜度夏'],
+      ['observations/002-miao-yu-rizi.html', '庙不是景点，是日程表']
+    ];
+
+    const bar = document.createElement('div');
+    bar.className = 'tick';
+    bar.setAttribute('role', 'complementary');
+    bar.setAttribute('aria-label', '热点速览');
+    bar.innerHTML =
+      '<span class="tick-lab"><i></i>热点速览</span>' +
+      '<div class="tick-view"><div class="tick-track"></div></div>' +
+      '<button class="tick-x" type="button" aria-label="关闭热点速览">×</button>';
+
+    const track = bar.querySelector('.tick-track');
+    const group = () => {
+      const g = document.createElement('div');
+      g.className = 'tick-g';
+      items.forEach(([href, text], i) => {
+        const a = document.createElement('a');
+        a.href = rootUrl(href);
+        a.innerHTML = '<i>' + (i + 1) + '</i>' + text;
+        g.append(a);
+      });
+      return g;
+    };
+    /* 放两份，滚动到 -50% 时正好接上，循环无缝 */
+    track.append(group(), group());
+
+    bar.querySelector('.tick-x').addEventListener('click', () => {
+      bar.remove();
+      document.documentElement.classList.remove('has-tick');
+      try { localStorage.setItem(KEY + '_tick', '0'); } catch (e) {}
+    });
+
+    document.body.append(bar);
+    document.documentElement.classList.add('has-tick');
+  })();
+
   window.TsUi = { state: state, save: save, apply: apply, say: say, synth: 'speechSynthesis' in window ? window.speechSynthesis : null };
 })();

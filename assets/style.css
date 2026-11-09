@@ -1628,3 +1628,86 @@ html.xbig .ls-h1 { font-size: clamp(36px, 7.4vw, 72px); }
   .novel-warn { padding: 13px 15px; font-size: 13.5px; }
   .novel-page .np + .np { margin-top: 2em; padding-top: 1.7em; }
 }
+
+/* ---------- 热点速览：底部固定滚动条 ---------- */
+.tick {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+  display: flex; align-items: center; gap: 12px;
+  height: 42px; padding: 0 10px 0 14px;
+  overflow: hidden;
+  background: var(--paper2);
+  border-top: 2px solid var(--ink);
+  box-shadow: 0 -8px 24px rgba(36, 27, 47, .10);
+}
+/* 一道很淡的光从右往左扫过，只在边缘能被看到 */
+.tick::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 46%;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 94, .10), transparent);
+  transform: translateX(-120%); pointer-events: none;
+  animation: tickscan 7s linear infinite;
+}
+.tick-lab {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto;
+  font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: .14em; color: var(--deep); white-space: nowrap;
+}
+.tick-lab i {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  animation: tickpulse 1.8s ease-out infinite;
+}
+.tick-view {
+  flex: 1 1 auto; position: relative; z-index: 1; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30px, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 30px, #000 calc(100% - 26px), transparent);
+}
+.tick-track {
+  display: flex; width: max-content;
+  animation: tickrun 38s linear infinite 2.4s;
+  will-change: transform;
+}
+.tick:hover .tick-track, .tick:focus-within .tick-track { animation-play-state: paused; }
+.tick-g { display: flex; align-items: center; }
+.tick-g a {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding-right: 34px; white-space: nowrap;
+  font-size: 12.5px; color: var(--ink);
+}
+.tick-g a i {
+  font-style: normal; font-family: var(--mono); font-size: 9px;
+  color: var(--deep); opacity: .85;
+}
+.tick-g a:hover { color: var(--deep); }
+.tick-x {
+  position: relative; z-index: 1; flex: 0 0 auto;
+  appearance: none; -webkit-appearance: none;
+  border: 0; background: transparent; cursor: pointer;
+  padding: 6px 4px; font-size: 16px; line-height: 1; color: var(--muted);
+}
+.tick-x:hover { color: var(--ink); }
+html.has-tick body { padding-bottom: 56px; }
+html.has-tick .uitoast { bottom: 60px; }
+
+@keyframes tickrun { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+@keyframes tickpulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 107, 94, .55); }
+  70% { box-shadow: 0 0 0 9px rgba(255, 107, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 94, 0); }
+}
+@keyframes tickscan {
+  0% { transform: translateX(-120%); }
+  55%, 100% { transform: translateX(260%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tick-track { animation: none; }
+  .tick-lab i { animation: none; }
+  .tick::after { display: none; }
+  .tick-view { overflow-x: auto; }
+}
+@media (max-width: 600px) {
+  .tick { height: 40px; gap: 9px; padding: 0 6px 0 12px; }
+  .tick-lab { font-size: 10px; letter-spacing: .1em; }
+  .tick-g a { font-size: 12px; padding-right: 26px; }
+  .tick-x { font-size: 15px; }
+  html.has-tick body { padding-bottom: 52px; }
+}
