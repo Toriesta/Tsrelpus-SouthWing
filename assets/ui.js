@@ -46,58 +46,9 @@
   /* 导航入口：按当前脚本位置推算站点根目录 */
   const nav = document.querySelector('.nav');
   const src = document.currentScript ? document.currentScript.src : '';
-  const rootUrl = (name) => (src ? new URL('../' + name, src).href : name);
+  const siteRoot = src ? src.slice(0, src.lastIndexOf('/assets/') + 1) : '';
+  const rootUrl = (name) => (siteRoot ? siteRoot + name : name);
   if (nav && nav.parentNode) {
-    /* 静态页已写死「阅读设置」时不再重复注入 */
-    if (!nav.querySelector('a[href$="settings.html"]')) {
-      const link = document.createElement('a');
-      link.className = 'setlink';
-      link.textContent = '阅读设置';
-      link.href = rootUrl('settings.html');
-      if (/(^|\/)settings\.html$/.test(location.pathname)) link.classList.add('on');
-      nav.append(link);
-    }
-
-    /* 谷子地图：静态页若未写死，就补在「游戏」之后 */
-    if (!nav.querySelector('a[href$="offline.html"]')) {
-      const gamesLink = nav.querySelector('a[href$="games.html"]');
-      if (gamesLink) {
-        const map = document.createElement('a');
-        map.textContent = '谷子地图';
-        map.href = rootUrl('offline.html');
-        gamesLink.after(map);
-      }
-    } else if (/(^|\/)offline\.html$/.test(location.pathname)) {
-      nav.querySelector('a[href$="offline.html"]').classList.add('on');
-    }
-
-    /* 农历日历：静态页若未写死，就补在「十镇」之后 */
-    if (!nav.querySelector('a[href$="calendar.html"]')) {
-      const townsLink = nav.querySelector('a[href$="towns.html"]');
-      if (townsLink) {
-        const cal = document.createElement('a');
-        cal.textContent = '农历';
-        cal.href = rootUrl('calendar.html');
-        if (/(^|\/)calendar\.html$/.test(location.pathname)) cal.classList.add('on');
-        townsLink.after(cal);
-      }
-    } else if (/(^|\/)calendar\.html$/.test(location.pathname)) {
-      nav.querySelector('a[href$="calendar.html"]').classList.add('on');
-    }
-
-    /* 小说：静态页若未写死，就补在「谷子地图」之后（没有则补在「游戏」之后） */
-    const isNovel = /(^|\/)novel(\.html|\/)/.test(location.pathname);
-    if (!nav.querySelector('a[href$="novel.html"]')) {
-      const before = nav.querySelector('a[href$="offline.html"]') || nav.querySelector('a[href$="games.html"]');
-      const nv = document.createElement('a');
-      nv.textContent = '小说';
-      nv.href = rootUrl('novel.html');
-      if (isNovel) nv.classList.add('on');
-      if (before) before.after(nv); else nav.append(nv);
-    } else if (isNovel) {
-      nav.querySelector('a[href$="novel.html"]').classList.add('on');
-    }
-
     /* 读者投稿：静态导航若未写死，就补在「栏目」之后 */
     const inSub = /(^|\/)submissions\//.test(location.pathname);
     if (!nav.querySelector('a[data-sub-link]')) {
@@ -125,30 +76,13 @@
     window.addEventListener('load', centerActive);
   }
 
-  /* 文章页：阅读 / 点赞（初期展示值，可在 .article-head 上用
-     data-views / data-likes 单独指定）+ 分享按钮 */
-  const fmtN = (n) => n.toLocaleString('en-US');
-  const seedFor = (key) => {
-    let h = 2166136261;
-    for (let i = 0; i < key.length; i++) { h ^= key.charCodeAt(i); h = Math.imul(h, 16777619); }
-    h = h >>> 0;
-    return { views: 1800 + h % 4200, likes: 120 + (h >>> 8) % 380 };
-  };
-
+  /* 文章页：分享按钮。站内没装统计，也就不摆阅读量、点赞数 */
   const articleHead = document.querySelector('.article-head');
   const byline = articleHead && articleHead.querySelector('.byline');
   if (byline) {
-    const seed = seedFor(location.pathname);
-    const views = articleHead.dataset.views ? parseInt(articleHead.dataset.views, 10) : seed.views;
-    const likes = articleHead.dataset.likes ? parseInt(articleHead.dataset.likes, 10) : seed.likes;
-
     const stats = document.createElement('div');
     stats.className = 'stats';
-    stats.title = '初期展示值，非实时统计';
-    stats.innerHTML =
-      '<span class="stat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg><b>' + fmtN(views) + '</b> 阅读</span>' +
-      '<span class="stat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.3A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7 3.7C19 15.6 12 20 12 20Z"/></svg><b>' + fmtN(likes) + '</b> 点赞</span>' +
-      '<button class="share" type="button">分享这篇</button>';
+    stats.innerHTML = '<button class="share" type="button">分享这篇</button>';
     byline.after(stats);
 
     const share = stats.querySelector('.share');
@@ -176,20 +110,6 @@
       copy();
     });
   }
-
-  /* 信息流卡片：也带阅读 / 点赞，和点进去的文章用同一套数 */
-  document.querySelectorAll('.card').forEach((card) => {
-    const link = card.querySelector('a[href]');
-    const meta = card.querySelector('.card-meta');
-    if (!link || !meta || meta.querySelector('.cstat')) return;
-    let key = link.getAttribute('href');
-    try { key = new URL(key, location.href).pathname; } catch (e) {}
-    const s = seedFor(key);
-    const el = document.createElement('span');
-    el.className = 'cstat';
-    el.textContent = fmtN(s.views) + ' 阅读 · ' + fmtN(s.likes) + ' 点赞';
-    meta.append(el);
-  });
 
   /* 热点速览：底部固定滚动条，可关闭，关掉后记住 */
   (function ticker() {
@@ -240,16 +160,31 @@
     document.documentElement.classList.add('has-tick');
   })();
 
-  /* 页脚：全站统一挂「规则与合规」入口（含投诉渠道） */
-  (function legalLink() {
+  /* 页脚：全站统一的次级入口，不占顶部导航 */
+  (function footMeta() {
     const foot = document.querySelector('footer.foot');
-    if (!foot || foot.querySelector('a[data-legal-link]')) return;
-    const a = document.createElement('a');
-    a.href = rootUrl('legal.html');
-    a.dataset.legalLink = '1';
-    a.textContent = '规则与合规';
-    if (/(^|\/)legal\.html$/.test(location.pathname)) a.classList.add('on');
-    foot.append(a);
+    if (!foot || foot.querySelector('[data-foot-meta]')) return;
+    const here = location.pathname;
+    const items = [
+      ['观察 001', 'observations/001-shi-zhen-chanye.html'],
+      ['来源核验', 'sources.html'],
+      ['关于本刊', 'about.html'],
+      ['AI 用法', 'ai.html'],
+      ['投稿', 'submissions/index.html'],
+      ['阅读设置', 'settings.html'],
+      ['规则与合规', 'legal.html']
+    ];
+    const box = document.createElement('span');
+    box.className = 'foot-meta';
+    box.dataset.footMeta = '1';
+    items.forEach(([label, href]) => {
+      const a = document.createElement('a');
+      a.textContent = label;
+      a.href = rootUrl(href);
+      if (here.endsWith('/' + href)) a.classList.add('on');
+      box.append(a);
+    });
+    foot.append(box);
   })();
 
   window.TsUi = { state: state, save: save, apply: apply, say: say, synth: 'speechSynthesis' in window ? window.speechSynthesis : null };

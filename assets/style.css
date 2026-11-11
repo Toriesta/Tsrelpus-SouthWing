@@ -150,9 +150,6 @@ ul, ol { list-style: none; }
   font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
   color: var(--muted);
 }
-.stat { display: inline-flex; align-items: center; gap: 6px; }
-.stat svg { width: 14px; height: 14px; opacity: .75; }
-.stat b { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
 .share {
   appearance: none; -webkit-appearance: none;
   padding: 5px 13px; border: 1px solid var(--rule-strong);
@@ -222,6 +219,8 @@ ul, ol { list-style: none; }
   font-family: var(--mono); font-size: 9px; letter-spacing: .1em; color: var(--muted);
 }
 .foot a:hover { color: var(--ink); }
+.foot-meta { display: inline-flex; flex-wrap: wrap; gap: 0 14px; }
+.foot-meta a.on { color: var(--ink); }
 
 /* ---------- 文章页 ---------- */
 .article-head { padding: clamp(28px, 4vw, 44px) 0 0; }
