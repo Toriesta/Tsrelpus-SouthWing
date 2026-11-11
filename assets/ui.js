@@ -48,12 +48,15 @@
   const src = document.currentScript ? document.currentScript.src : '';
   const rootUrl = (name) => (src ? new URL('../' + name, src).href : name);
   if (nav && nav.parentNode) {
-    const link = document.createElement('a');
-    link.className = 'setlink';
-    link.textContent = '阅读设置';
-    link.href = rootUrl('settings.html');
-    if (/(^|\/)settings\.html$/.test(location.pathname)) link.classList.add('on');
-    nav.append(link);
+    /* 静态页已写死「阅读设置」时不再重复注入 */
+    if (!nav.querySelector('a[href$="settings.html"]')) {
+      const link = document.createElement('a');
+      link.className = 'setlink';
+      link.textContent = '阅读设置';
+      link.href = rootUrl('settings.html');
+      if (/(^|\/)settings\.html$/.test(location.pathname)) link.classList.add('on');
+      nav.append(link);
+    }
 
     /* 谷子地图：静态页若未写死，就补在「游戏」之后 */
     if (!nav.querySelector('a[href$="offline.html"]')) {
@@ -235,6 +238,18 @@
 
     document.body.append(bar);
     document.documentElement.classList.add('has-tick');
+  })();
+
+  /* 页脚：全站统一挂「规则与合规」入口（含投诉渠道） */
+  (function legalLink() {
+    const foot = document.querySelector('footer.foot');
+    if (!foot || foot.querySelector('a[data-legal-link]')) return;
+    const a = document.createElement('a');
+    a.href = rootUrl('legal.html');
+    a.dataset.legalLink = '1';
+    a.textContent = '规则与合规';
+    if (/(^|\/)legal\.html$/.test(location.pathname)) a.classList.add('on');
+    foot.append(a);
   })();
 
   window.TsUi = { state: state, save: save, apply: apply, say: say, synth: 'speechSynthesis' in window ? window.speechSynthesis : null };
