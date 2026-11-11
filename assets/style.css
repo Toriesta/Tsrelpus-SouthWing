@@ -1872,7 +1872,17 @@ html.has-tick .uitoast { bottom: 60px; }
   .sub-step:last-child { border-bottom: 0; padding-bottom: 4px; }
 }
 @media (max-width: 460px) {
-  .slim-bar .slim-btn[href*="search"] { display: none; }
+  /* 原来这里把「搜索」藏掉了，手机上没有别的入口。改为收紧顶栏，
+     三个按钮都留下：投稿、搜索、全部栏目在 320px 下仍能排开。 */
+  .slim-bar { gap: 6px; }
+  .slim-meta { display: none; }
+  .slim-brand b { font-size: 14px; }
+  .slim-btn { padding: 6px 8px; font-size: 11.5px; }
+}
+@media (max-width: 379px) {
+  /* 320—379px：刊名让给按钮，只留刊标（仍可点回首页） */
+  .slim-brand b { display: none; }
+  .slim-brand img { width: 26px; height: 26px; }
 }
 @media (max-width: 600px) {
   .sub-btn { flex: 1 1 auto; text-align: center; }
@@ -2231,4 +2241,47 @@ body.feed-page .foot.wrap { max-width: 1180px; padding: 0 var(--pad); }
   .today-links { animation-delay: .14s; }
   .today-acts { animation-delay: .18s; }
   .today-media { animation-delay: .08s; }
+}
+
+/* ---------- 手机适配（2026-11） ---------- */
+html {
+  -webkit-tap-highlight-color: transparent;
+  scroll-padding-top: 96px;   /* 锚点跳转别钻进吸顶频道条底下 */
+}
+a, button, [role="tab"] { touch-action: manipulation; }
+
+/* 底部固定条给 iPhone 的横条留位置，不然最后一行的字贴在横条上 */
+.tick {
+  height: calc(42px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html.has-tick body { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
+.tick-x {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 40px; min-height: 40px; padding: 0;
+}
+
+@media (max-width: 600px) {
+  .tick {
+    height: calc(38px + env(safe-area-inset-bottom, 0px));
+    gap: 9px; padding-left: 12px;
+  }
+  html.has-tick body { padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)); }
+  .tick-lab { font-size: 10.5px; letter-spacing: .1em; }
+  .tick-g a { font-size: 11.5px; padding-right: 22px; }
+  .today-links a { font-size: 14px; line-height: 1.65; }
+}
+
+/* 文章页刊头：窄屏不再叠一行品牌，把首屏让给标题 */
+@media (max-width: 520px) {
+  .masthead { padding-top: 8px; }
+  .mast-top { display: block; text-align: center; font-size: 8.5px; letter-spacing: .1em; }
+  .mast-top .mast-brand { display: none; }
+  .mast-top > div:last-child { display: block; }
+  .mast-rule { margin-top: 8px; }
+  .mast-name { padding: 8px 0 6px; }
+  .mast-name h1 { font-size: 30px; letter-spacing: -.05em; }
+  .mast-name h1 small { margin-top: 4px; font-size: 8px; letter-spacing: .18em; }
+  .nav { column-gap: 15px; font-size: 11px; letter-spacing: .1em; }
+  .article-head { padding-top: 20px; }
 }
